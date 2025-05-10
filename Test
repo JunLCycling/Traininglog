@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>訓練紀錄表單</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>訓練紀錄表單</h1>
+  <form id="trainingForm">
+    <label for="date">日期：</label>
+    <input type="date" id="date" name="date" />
+
+    <label for="name">姓名：</label>
+    <input type="text" id="name" name="name" />
+
+    <label for="type">類型：</label>
+    <select id="type" name="type">
+      <option value="">請選擇</option>
+      <option value="俯衝">俯衝</option>
+      <option value="定點">定點</option>
+      <option value="動態加速">動態加速</option>
+      <option value="DD">DD</option>
+      <option value="追機車">追機車</option>
+      <option value="機車推">機車推</option>
+    </select>
+
+    <label for="wheel">輪子：</label>
+    <select id="wheel" name="wheel">
+      <option value="">請選擇</option>
+      <option value="練習輪">練習輪</option>
+      <option value="比賽輪">比賽輪</option>
+    </select>
+
+    <label for="distance">距離（公尺）：</label>
+    <input type="number" id="distance" name="distance" />
+
+    <label for="time">秒數：</label>
+    <input type="number" id="time" name="time" />
+
+    <div id="segments">
+      <label>分段秒數：</label>
+      <input type="number" name="segment[]" />
+    </div>
+    <button type="button" onclick="addSegment()">新增分段</button>
+
+    <label for="frontGear">前齒：</label>
+    <input type="number" id="frontGear" name="frontGear" />
+
+    <label for="rearGear">後齒：</label>
+    <input type="number" id="rearGear" name="rearGear" />
+
+    <label for="note">備註：</label>
+    <textarea id="note" name="note"></textarea>
+
+    <label for="maxPower">最高功率：</label>
+    <input type="number" id="maxPower" name="maxPower" />
+
+    <label for="maxCadence">最高迴轉：</label>
+    <input type="number" id="maxCadence" name="maxCadence" />
+
+    <label for="gearRatio">齒比：</label>
+    <input type="text" id="gearRatio" name="gearRatio" readonly />
+
+    <button type="submit">送出</button>
+  </form>
+
+  <script>
+    function addSegment() {
+      const segmentsDiv = document.getElementById('segments');
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.name = 'segment[]';
+      segmentsDiv.appendChild(document.createElement('br'));
+      segmentsDiv.appendChild(input);
+    }
+
+    document.getElementById('trainingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const front = parseFloat(document.getElementById('frontGear').value);
+      const rear = parseFloat(document.getElementById('rearGear').value);
+      if (front && rear) {
+        const ratio = (front / rear * 27).toFixed(2);
+        document.getElementById('gearRatio').value = ratio;
+      } else {
+        document.getElementById('gearRatio').value = '';
+      }
+      alert('表單已送出！');
+    });
+  </script>
+</body>
+</html>
